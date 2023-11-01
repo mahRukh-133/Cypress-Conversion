@@ -6,7 +6,7 @@ describe("Connectivity Indicator Test", () => {
         loginUrl = urls.loginUrl;
       });
     });
-   ` `
+   
 
     it('Check device connectivity status and toggle button',()=>{
       cy.visit(loginUrl); // Visit the login URL to simulate returning online

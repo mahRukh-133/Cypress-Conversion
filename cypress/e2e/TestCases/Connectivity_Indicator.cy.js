@@ -9,8 +9,7 @@ describe("Connectivity Indicator Test", () => {
    ` `
 
     it('Check device connectivity status and toggle button',()=>{
-      cy.visit(loginUrl); // Visit the login URL to simulate returning online
-
+    cy.visit(loginUrl); // Visit the login URL to simulate returning online
       cy.get(':nth-child(1) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper').click().type('admin@email.com');
       cy.get(':nth-child(2) > .ant-row > .ant-col > .ant-form-item-control-input > .ant-form-item-control-input-content > .ant-input-affix-wrapper').click().type('admin_proceed');
       cy.get('#login-button').click();
