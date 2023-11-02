@@ -18,6 +18,7 @@ it('Logout', ()=>{
     cy.get('#profile-button').click()
     //click on Log-out button
     cy.get('.ant-popover-inner-content > :nth-child(4)').click()
+    cy.get(':nth-child(8) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').click()
 })
 
 })
