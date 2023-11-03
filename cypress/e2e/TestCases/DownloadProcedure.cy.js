@@ -24,7 +24,7 @@ describe('Server Procedure Listing Tests', () => {
   
     it.only('should download a procedure with references', () => {
       cy.get('.sc-gsFSXq > .ant-btn').click();
-      cy.get('#download-747DBFDF-C246-46BD-9CA2-90D78DFF6CEF > .sc-fqkvVR > svg').click();
+      cy.get('#download-747DBFDF-C246-46BD-9CA2-90D78DFF6CEF > .sc-fqkvVR > svg').click({force:true});
       cy.get(':nth-child(11) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true > span').click();
       cy.get('#tab-procedures-button > .sc-fqkvVR > svg').click();
       cy.get('#delete-procedure-button').should('be.disabled');

@@ -9,7 +9,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "cypress": "^13.4.0",
-    "cypress-mochawesome-reporter": "^3.6.1"
+    "cypress-mochawesome-reporter": "^3.6.1",
+    "esbuild": "^0.19.5"
+  },
+  "dependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^19.0.0"
   }
 }

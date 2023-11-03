@@ -1,24 +1,27 @@
+const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
+const addCucumberPreprocessorPlugin = require("@badeball/cypress-cucumber-preprocessor").addCucumberPreprocessorPlugin;
+const createEsbuildPlugin= require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin;
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  viewportWidth: 1400,
-  viewportHeight: 1200,
-  reporter: "cypress-mochawesome-reporter",
-  reporterOptions: {
-    charts: true,
-    reportPageTitle: "custom-title",
-    embeddedScreenshots: true,
-    inlineAssets: true,
-    saveAllAttempts: false,
-  },
-  pageLoadTimeout: 60000,
-  defaultCommandTimeout: 40000,
   e2e: {
+
     setupNodeEvents(on, config) {
-      // implement node event listeners here
-      require("cypress-mochawesome-reporter/plugin")(on);
+      const bundler = createBundler({
+        plugins:[createEsbuildPlugin(config)],
+      });
+
+      on("file:preprocessor",bundler);
+       addCucumberPreprocessorPlugin(on, config);
+      return config;
+
     },
-    experimentalRunAllSpecs: true,
-    experimentalStudio: true,
+
+
+
+    specPattern: "cypress/e2e/features/*.feature",
   },
+
+  pageLoadTimeout: 80000,
+  defaultCommandTimeout: 60000,
 });
