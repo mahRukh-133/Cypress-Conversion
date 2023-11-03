@@ -23,8 +23,7 @@ ClickonLogout(){
 }
 
 ClcikonAccepter(){
-    cy.get(':nth-child(8) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').click()
-
+  cy.contains('button', 'Aceptar').click();
 }
 
 NoConnectionToServer(){
@@ -36,6 +35,26 @@ TurnonConnection(){
 
 }
 
+CheckConnectivityButtonisenabled(){
+  cy.get('button#connection-indicator-button')
+  .should('not.have.attr', 'disabled');
+
+}
+
+TurnOffConnection(){
+  cy.get('button#connection-indicator-button').click()
+}
+
+CheckConnectionnotConnected(){
+  cy.get('.ant-result-title > span')
+  .should('have.text', 'No hay conexión');
+
+}
+
+CheckConnectivityButtonDisabled(){
+  cy.get('button#connection-indicator-button')
+  .should('have.attr', 'data-status', 'DISABLED')
+}
 
 
 
