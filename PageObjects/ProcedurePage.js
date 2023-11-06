@@ -16,7 +16,10 @@ DownloadProcedure1(){
 }
 
 
+CLickonProcedureTab(){
+  cy.get('#tab-procedures-button').click()
 
+}
 
 
 

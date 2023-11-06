@@ -57,7 +57,9 @@ CheckConnectivityButtonDisabled(){
 }
 
 
-
+ClickOnDashboardTab(){
+  cy.get('#tab-dashboard').click()
+}
 
 
 
