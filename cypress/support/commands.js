@@ -27,4 +27,12 @@ Cypress.Commands.add('login', () => {
       Home_Page.ClickonConfirmer()
     });
   });
+  Cypress.Commands.add('downloadProcedure', (procedureTitle) => {
+    cy.contains(procedureTitle)
+      .parents('tr')
+      .within(() => {
+        cy.get('button[id^="download-"]').click();
+      });
   
+    cy.get('.ant-modal-footer .ant-btn-true span').invoke('click');
+  });
