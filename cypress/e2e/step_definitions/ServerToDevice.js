@@ -22,25 +22,28 @@ const downloadButton = document.querySelector('[data-id="$2f659ff2ed242106$expor
   Then('Download procedure PRU-AUTO-01',()=>{
     Home_Page.ClickOnDashboardTab()
     cy.wait(2000)
-    cy.get("td[data-column-id='procedure.title']").contains("AUTO TEST PROCEDURE. DEMO-ENG-01")
-    .parents('tr')
-  .within(() => {
-    cy.get('[data-row-key="9F5C7A08-779A-4BE2-A299-83CD07257A5D"] > [style="position: sticky; right: 0px;"] > .sc-gfoqjT').invoke('click')  
-  
-  });
+    cy.get('tr[data-row-key="1F75CC48-D682-4AD0-AD02-00626F5F3398"]').within(() => {
+      // Verify the title of the procedure
+      cy.get('td[data-column-id="procedure.title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-01');
+    
+      // Click the download button
+      cy.get('button[id="download-1F75CC48-D682-4AD0-AD02-00626F5F3398"]').click();
+    })
+    
     cy.get(':nth-child(10) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
   
   })
   
 
   Then('after downloading, the download button is disabled',()=>{
-   // cy.get('#download-9F5C7A08-779A-4BE2-A299-83CD07257A5D').should('be.disabled');
+    cy.get('#download-1F75CC48-D682-4AD0-AD02-00626F5F3398').should('have.attr', 'disabled');
 
   })
 
   When('the after downloading, the procedure appears in the device list of procedures',()=>{
     cy.get('#tab-procedures-button').click()
-   // cy.get('.sc-gmgFlS').should('contain', 'Total de elementos: 1');
+    cy.get('td[data-column-id="title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-01');
+
 
  
   })

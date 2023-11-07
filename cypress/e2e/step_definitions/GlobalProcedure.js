@@ -30,28 +30,35 @@ Then('Verify the List of Procedure',()=>{
 })
 
 Then('Select a Procedure and Download it',()=>{
-  cy.contains('AUTO TEST PROCEDURE. DEMO-ENG-01')
-  .parents('tr')
-  .within(() => {
-    cy.get('button[id^="download-"]').click();
-  });
+  cy.get('#tab-dashboard').click()
+  cy.get('tr[data-row-key="1F75CC48-D682-4AD0-AD02-00626F5F3398"]').within(() => {
+    // Verify the title of the procedure
+    cy.get('td[data-column-id="procedure.title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-01');
+    
+    // Click the download button
+    cy.get('button[id="download-1F75CC48-D682-4AD0-AD02-00626F5F3398"]').click();
+  })
+  
   //cy.contains('Cancelar').click();
-  cy.get(':nth-child(8) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true > span').invoke('click')
+  cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
  
 })
 
 Then('Verify that after download button is disabled',()=>{
 
-  cy.get('button#download-D27D19B9-E2C2-4706-ACFA-EE11AA1DBDFD').should('be.disabled');
+  cy.get('#download-1F75CC48-D682-4AD0-AD02-00626F5F3398').should('be.disabled');
 
 })
 
 Then('Download second procedure',()=>{
-  cy.contains(procedureTitle2)
-  .parents('tr')
-  .within(() => {
-   // cy.get('button[id^="download-"]').click();
-  });
+  cy.get('tr[data-row-key="747DBFDF-C246-46BD-9CA2-90D78DFF6CEF"]').within(() => {
+    // Verify the title of the procedure
+    cy.get('td[data-column-id="procedure.title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-03');
+    
+    // Click the download button
+    cy.get('button[id^="download-"]').click();
+  })
+  
 
 })
 
@@ -66,8 +73,32 @@ Then('Check that after executing of Procedure delete button is disable',()=>{
 
 Then('Delete the all procedures',()=>{
   cy.get('#tab-executions-button').click()
-  cy.get('[data-row-key="D27D19B9-E2C2-4706-ACFA-EE11AA1DBDFD"] > [data-column-id="id"] > .sc-gfoqjT > #delete-procedure-button').click()
+  cy.get('#delete-procedure-button').click();
   cy.contains('Aceptar').click();
-  //cy.get('[data-row-key="747DBFDF-C246-46BD-9CA2-90D78DFF6CEF"] > [data-column-id="id"] > .sc-gfoqjT > #delete-procedure-button').click()
-  //cy.contains('Aceptar').click();
+
+  cy.wait(3000)
+  cy.get('#delete-procedure-button').click();
+  cy.contains('Aceptar').click();
+
 })
+
+Then('the sorting is alphabetically',()=>{
+cy.get('#tab-procedures-button').click()
+ // Click on the Clave column header
+ cy.get(':nth-child(3) > .ant-table-column-sorters').click({force:true})
+ cy.get(':nth-child(3) > .ant-table-column-sorters').click({force:true})
+
+ // Wait for a moment to ensure the sorting is applied
+ cy.wait(3000); // Adjust the wait duration as needed
+
+ // Get the titles in the sorted order
+ cy.get('td[data-column-id="title"]')
+   .then($titles => {
+     return $titles.map((index, html) => Cypress.$(html).text()).get();
+   })
+   .should('deep.eq', ['AUTO TEST PROCEDURE. DEMO-ENG-01', 'AUTO TEST PROCEDURE. DEMO-ENG-03']);
+});
+
+
+
+

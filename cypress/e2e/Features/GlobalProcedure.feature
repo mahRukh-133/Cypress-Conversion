@@ -7,3 +7,4 @@ Feature: Global Procedure
     Then  Download second procedure
     Then Check that after executing of Procedure delete button is disable
     Then Delete the all procedures
+Then the sorting is alphabetically
