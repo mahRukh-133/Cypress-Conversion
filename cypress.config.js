@@ -6,8 +6,8 @@ const { defineConfig } = require("cypress");
 module.exports = defineConfig({
   
   e2e: {
-
-    setupNodeEvents(on, config) {
+    "baseUrl": "https://srvproceed02pw.westeurope.cloudapp.azure.com/",
+        setupNodeEvents(on, config) {
       const bundler = createBundler({
         plugins:[createEsbuildPlugin(config)],
       });

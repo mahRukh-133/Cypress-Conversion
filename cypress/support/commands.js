@@ -3,27 +3,30 @@ import { HomePage } from '../../PageObjects/HomePage';
 const Login_Page = new LoginPage
 const Home_Page = new HomePage
 
-function generateRandomDeviceName() {
-    const adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Gold'];
-    const nouns = ['Phone', 'Tablet', 'Laptop', 'Smartwatch', 'Camera', 'Game Console', 'Headphones', 'Speaker'];
-  
-    const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-  
-    const randomDeviceName = `${randomAdjective} ${randomNoun}`;
-    return randomDeviceName;
-  }
+function generateUniqueDeviceName() {
+  // Generate a unique timestamp to ensure uniqueness
+  const timestamp = new Date().getTime();
+
+  // Combine timestamp with a prefix to create the device name
+  const deviceName = `device_${timestamp}`;
+
+  return deviceName;
+}
+
+
 Cypress.Commands.add('login', () => {
-    cy.fixture('urls.json').then((urls) => {
-      const loginUrl = urls.loginUrl;
-      cy.visit(loginUrl);
-      Login_Page.enterValidCredentials('admin@email.com', 'admin_proceed'); // Use the enterValidCredentials method
+
+  cy.fixture('credentials.json').then((credentials) => {
+    const { email, password } = credentials.admin;
+
+      cy.visit('/');
+      Login_Page.enterValidCredentials(email, password); // Use the enterValidCredentials method
       Login_Page.clickLoginButton(); 
       Login_Page.scrollModalIntoView()
       Login_Page.clickElementInModal()
       Login_Page.clickAcepter()
-      const deviceName = generateRandomDeviceName();
-      Home_Page.AddDeviceName(deviceName)
+      const uniqueDeviceName = generateUniqueDeviceName();
+      Home_Page.AddDeviceName(uniqueDeviceName)
       Home_Page.ClickonConfirmer()
     });
   });

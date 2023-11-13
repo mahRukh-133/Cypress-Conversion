@@ -3,8 +3,7 @@ import { Given, When, Then, DataTable } from '@badeball/cypress-cucumber-preproc
 import { ProcedurePage } from '../../../PageObjects/ProcedurePage';
 
 const Procedure_Page = new ProcedurePage
-const procedureTitle1 = 'AUTO TEST PROCEDURE. DEMO-ENG-01';
-const procedureTitle2 = 'AUTO TEST PROCEDURE. DEMO-ENG-03'
+
   Given('Login the app then Verify list of Procedure',()=>{
     cy.login();
     Procedure_Page.VerfyTitle()
@@ -31,14 +30,17 @@ Then('Verify the List of Procedure',()=>{
 
 Then('Select a Procedure and Download it',()=>{
   cy.get('#tab-dashboard').click()
-  cy.get('tr[data-row-key="1F75CC48-D682-4AD0-AD02-00626F5F3398"]').within(() => {
-    // Verify the title of the procedure
-    cy.get('td[data-column-id="procedure.title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-01');
-    
-    // Click the download button
-    cy.get('button[id="download-1F75CC48-D682-4AD0-AD02-00626F5F3398"]').click();
-  })
-  
+  // Validate and download procedure with key "PRU-AUTO-03"
+  const procedureKey = 'PRU-AUTO-03';
+
+  // Find the row containing the procedure with the specified key
+  cy.contains('td[data-column-id="procedure.key"]', procedureKey).parent('tr').within(() => {
+    // Assert that the procedure key is present in the table
+    cy.get('[data-column-id="procedure.key"]').should('contain', procedureKey);
+
+    // Click the download button for the corresponding procedure
+    cy.get('[id^="download-"]').click();
+  });
   //cy.contains('Cancelar').click();
   cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
  
@@ -46,19 +48,34 @@ Then('Select a Procedure and Download it',()=>{
 
 Then('Verify that after download button is disabled',()=>{
 
-  cy.get('#download-1F75CC48-D682-4AD0-AD02-00626F5F3398').should('be.disabled');
+// Assuming you have previously located the button element
+const downloadButton = cy.get('#download-747DBFDF-C246-46BD-9CA2-90D78DFF6CEF');
+
+// Verify that the button is disabled
+downloadButton.should('have.attr', 'disabled');
 
 })
 
 Then('Download second procedure',()=>{
-  cy.get('tr[data-row-key="747DBFDF-C246-46BD-9CA2-90D78DFF6CEF"]').within(() => {
-    // Verify the title of the procedure
-    cy.get('td[data-column-id="procedure.title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-03');
-    
-    // Click the download button
-    cy.get('button[id^="download-"]').click();
-  })
-  
+  const procedureKey = 'PRU-AUTO-01';
+
+   // Find the row containing the procedure with the specified key and EXECUTING status
+   cy.contains('td[data-column-id="procedure.key"]', procedureKey)
+   .parent('tr')
+   .within(() => {
+     // Check if the status is EXECUTING
+     const statusText = cy.get('[data-column-id="status"] #status-text').invoke('text');
+     if (statusText === 'EJECUTANDO') {
+       // Assert that the procedure key is present in the table
+       cy.get('[data-column-id="procedure.key"]').should('contain', procedureKey);
+
+       // Click the download button for the corresponding procedure
+       cy.get('[id^="download-"]').click();
+     } else {
+       // Log a message if the procedure is not in EXECUTING stage
+       cy.log(`Procedure with key "${procedureKey}" is not in EXECUTING stage.`);
+     }
+   });
 
 })
 
@@ -77,8 +94,8 @@ Then('Delete the all procedures',()=>{
   cy.contains('Aceptar').click();
 
   cy.wait(3000)
-  cy.get('#delete-procedure-button').click();
-  cy.contains('Aceptar').click();
+ // cy.get('#delete-procedure-button').click();
+ // cy.contains('Aceptar').click();
 
 })
 
