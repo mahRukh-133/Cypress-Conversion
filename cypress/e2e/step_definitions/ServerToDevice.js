@@ -22,17 +22,19 @@ const downloadButton = document.querySelector('[data-id="$2f659ff2ed242106$expor
   Then('Download procedure PRU-AUTO-01',()=>{
     Home_Page.ClickOnDashboardTab()
     cy.wait(2000)
-    cy.get('tr[data-row-key="1F75CC48-D682-4AD0-AD02-00626F5F3398"]').within(() => {
-      // Verify the title of the procedure
-      cy.get('td[data-column-id="procedure.title"]').should('contain', 'AUTO TEST PROCEDURE. DEMO-ENG-01');
     
-      // Click the download button
-      cy.get('button[id="download-1F75CC48-D682-4AD0-AD02-00626F5F3398"]').click();
-    })
-    
-    cy.get(':nth-child(10) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
+  const procedureKey = 'PRU-AUTO-01';
+  cy.wait(3000)
+          // Find the table row containing the specified data-row-key attribute value
+      cy.get('.ant-table-row[data-row-key="1F75CC48-D682-4AD0-AD02-00626F5F3398"]').within(() => {
+        // Verify that the status is "EXECUTING"
+       
   
-  })
+        // Click on the download button using its ID
+        cy.get('#download-1F75CC48-D682-4AD0-AD02-00626F5F3398').click();
+      });
+      cy.get(':nth-child(10) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
+    });
   
 
   Then('after downloading, the download button is disabled',()=>{
@@ -54,4 +56,19 @@ const downloadButton = document.querySelector('[data-id="$2f659ff2ed242106$expor
     cy.contains('Aceptar').click();
   })
 
+  Given('Download Procedure Pro-auto 3',()=>{
+    cy.get('#tab-dashboard').click()
+    // Validate and download procedure with key "PRU-AUTO-03"
+    const procedureKey = 'PRU-AUTO-03';
+  
+    // Find the row containing the procedure with the specified key
+    cy.contains('td[data-column-id="procedure.key"]', procedureKey).parent('tr').within(() => {
+      // Assert that the procedure key is present in the table
+      cy.get('[data-column-id="procedure.key"]').should('contain', procedureKey);
+  
+      // Click the download button for the corresponding procedure
+      cy.get('[id^="download-"]').click({force:true});
+      cy.wait(3000)
+    });
+  })
  

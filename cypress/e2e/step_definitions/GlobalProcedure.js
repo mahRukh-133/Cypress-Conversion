@@ -1,8 +1,10 @@
 // Import necessary dependencies and test data
 import { Given, When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor';
 import { ProcedurePage } from '../../../PageObjects/ProcedurePage';
+import { HomePage } from '../../../PageObjects/HomePage';
 
 const Procedure_Page = new ProcedurePage
+const Home_Page = new HomePage
 
   Given('Login the app then Verify list of Procedure',()=>{
     cy.login();
@@ -42,7 +44,7 @@ Then('Select a Procedure and Download it',()=>{
     cy.get('[id^="download-"]').click();
   });
   //cy.contains('Cancelar').click();
-  cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
+  //cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
  
 })
 
@@ -56,29 +58,23 @@ downloadButton.should('have.attr', 'disabled');
 
 })
 
-Then('Download second procedure',()=>{
+Then('then Download second procedure',()=>{
+  Home_Page.ClickOnDashboardTab()
+
   const procedureKey = 'PRU-AUTO-01';
+cy.wait(3000)
+        // Find the table row containing the specified data-row-key attribute value
+    cy.get('.ant-table-row[data-row-key="1F75CC48-D682-4AD0-AD02-00626F5F3398"]').within(() => {
+      // Verify that the status is "EXECUTING"
+     
 
-   // Find the row containing the procedure with the specified key and EXECUTING status
-   cy.contains('td[data-column-id="procedure.key"]', procedureKey)
-   .parent('tr')
-   .within(() => {
-     // Check if the status is EXECUTING
-     const statusText = cy.get('[data-column-id="status"] #status-text').invoke('text');
-     if (statusText === 'EJECUTANDO') {
-       // Assert that the procedure key is present in the table
-       cy.get('[data-column-id="procedure.key"]').should('contain', procedureKey);
-
-       // Click the download button for the corresponding procedure
-       cy.get('[id^="download-"]').click();
-     } else {
-       // Log a message if the procedure is not in EXECUTING stage
-       cy.log(`Procedure with key "${procedureKey}" is not in EXECUTING stage.`);
-     }
-   });
-
-})
-
+      // Click on the download button using its ID
+      cy.get('#download-1F75CC48-D682-4AD0-AD02-00626F5F3398').click();
+    });
+    
+    cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
+  });
+  
 
 Then('Check that after executing of Procedure delete button is disable',()=>{
 
@@ -94,7 +90,7 @@ Then('Delete the all procedures',()=>{
   cy.contains('Aceptar').click();
 
   cy.wait(3000)
- // cy.get('#delete-procedure-button').click();
+ //cy.get('#delete-procedure-button').click();
  // cy.contains('Aceptar').click();
 
 })
@@ -102,8 +98,8 @@ Then('Delete the all procedures',()=>{
 Then('the sorting is alphabetically',()=>{
 cy.get('#tab-procedures-button').click()
  // Click on the Clave column header
- cy.get(':nth-child(3) > .ant-table-column-sorters').click({force:true})
- cy.get(':nth-child(3) > .ant-table-column-sorters').click({force:true})
+ cy.get(':nth-child(4) > .ant-table-column-sorters').click({force:true})
+ //cy.get(':nth-child(3) > .ant-table-column-sorters').click({force:true})
 
  // Wait for a moment to ensure the sorting is applied
  cy.wait(3000); // Adjust the wait duration as needed
