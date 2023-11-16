@@ -53,7 +53,7 @@ const downloadButton = document.querySelector('[data-id="$2f659ff2ed242106$expor
   Then('Delete procedure PRU-AUTO-01',()=>{
     cy.get('#tab-executions-button').click()
     cy.get('#delete-procedure-button').click()
-    cy.contains('Aceptar').click();
+    cy.get('.ant-btn-true').eq('2').click();
   })
 
   Given('Download Procedure Pro-auto 3',()=>{

@@ -1,16 +1,22 @@
 import { Given, When, Then, DataTable } from '@badeball/cypress-cucumber-preprocessor';
 import {LoginPage} from "../../../PageObjects/Login"
 import { HomePage } from '../../../PageObjects/HomePage';
-
 function generateUniqueDeviceName() {
   // Generate a unique timestamp to ensure uniqueness
   const timestamp = new Date().getTime();
 
-  // Combine timestamp with a prefix to create the device name
-  const deviceName = `device_${timestamp}`;
+  // Get the current seconds
+  const seconds = new Date().getSeconds();
+
+  // Generate a random number to further ensure uniqueness
+  const randomNumber = Math.floor(Math.random() * 1000); // Adjust the range as needed
+
+  // Combine timestamp, seconds, random number, and a prefix to create the device name
+  const deviceName = `device_${timestamp}_${seconds}_${randomNumber}`;
 
   return deviceName;
 }
+
 
 
 
@@ -43,6 +49,7 @@ Then('Enter Valid Credentials', () => {
     // Add assertions or further actions after logging in
   });
 });
+
 
 
 When('I clicked on Login Button when I added credentials', () => {

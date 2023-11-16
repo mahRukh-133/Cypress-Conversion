@@ -87,7 +87,7 @@ Then('Check that after executing of Procedure delete button is disable',()=>{
 Then('Delete the all procedures',()=>{
   cy.get('#tab-executions-button').click()
   cy.get('#delete-procedure-button').click();
-  cy.contains('Aceptar').click();
+  cy.get('.ant-btn-true').eq('2').click();
 
   cy.wait(3000)
  //cy.get('#delete-procedure-button').click();

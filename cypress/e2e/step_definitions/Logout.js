@@ -3,16 +3,22 @@ import {LoginPage} from "../../../PageObjects/Login"
 import { HomePage } from '../../../PageObjects/HomePage';
 
 
-function generateRandomDeviceName() {
-    const adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple', 'Orange', 'Silver', 'Gold'];
-    const nouns = ['Phone', 'Tablet', 'Laptop', 'Smartwatch', 'Camera', 'Game Console', 'Headphones', 'Speaker'];
-  
-    const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
-    const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
-  
-    const randomDeviceName = `${randomAdjective} ${randomNoun}`;
-    return randomDeviceName;
-  }
+function generateUniqueDeviceName() {
+  // Generate a unique timestamp to ensure uniqueness
+  const timestamp = new Date().getTime();
+
+  // Get the current seconds
+  const seconds = new Date().getSeconds();
+
+  // Generate a random number to further ensure uniqueness
+  const randomNumber = Math.floor(Math.random() * 1000); // Adjust the range as needed
+
+  // Combine timestamp, seconds, random number, and a prefix to create the device name
+  const deviceName = `device_${timestamp}_${seconds}_${randomNumber}`;
+
+  return deviceName;
+}
+
 
 let loginUrl;
 const Login_Page = new LoginPage
@@ -31,7 +37,7 @@ Given(`I login the app and enter device name`, () => {
     Login_Page.scrollModalIntoView()
     Login_Page.clickElementInModal()
     Login_Page.clickAcepter()
-    const deviceName = generateRandomDeviceName();
+    const deviceName =generateUniqueDeviceName();
     Home_Page.AddDeviceName(deviceName)
     Home_Page.ClickonConfirmer()
 });
