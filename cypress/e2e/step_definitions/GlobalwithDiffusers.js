@@ -18,38 +18,35 @@ import { HomePage } from '../../../PageObjects/HomePage';
       
         return deviceName;
       }
-      
 
 let loginUrl;
 const Login_Page = new LoginPage();
 const Home_Page = new HomePage();
 
+// Assuming you have users like "admin", "shift_manager", etc. in your credentials.json file
+const userTypes = ['admin', 'shift_manager', 'supervisor', 'plant_operator'];
 
-Then('Enter Valid Credentials for {string}', (userType) => {
-  cy.fixture('credentials.json').then((credentials) => {
-    const { email, password } = credentials[userType];
+userTypes.forEach((userType) => {
+  describe(`Login and Logout as ${userType}`, () => {
+    it('should login, perform actions, and logout', () => {
+      cy.fixture('credentials.json').then((credentials) => {
+        const { email, password } = credentials[userType];
 
-    cy.log(`Logging in as ${userType} with email: ${email}, password: ${password}`);
-    cy.visit('/');
-    Login_Page.enterValidCredentials(email, password);
-  });
-});
-
-
-
-Then ('I Login Online as {string}', (userType) => {
-  cy.fixture('credentials.json').then((credentials) => {
-    const { email, password } = credentials[userType];
-
-    cy.visit('/');
-    Login_Page.enterValidCredentials(email, password);
-    Login_Page.clickLoginButton();
-    Login_Page.scrollModalIntoView()
-    Login_Page.clickElementInModal()
-    Login_Page.clickAcepter()
-    const uniqueDeviceName = generateUniqueDeviceName();
-    Home_Page.AddDeviceName(uniqueDeviceName)
-    Home_Page.ClickonConfirmer()
-    
+        cy.log(`Logging in as ${userType} with email: ${email}, password: ${password}`);
+        cy.visit('/');
+        Login_Page.enterValidCredentials(email, password);
+        Login_Page.clickLoginButton();
+        Login_Page.scrollModalIntoView();
+        Login_Page.clickElementInModal();
+        Login_Page.clickAcepter();
+        cy.wait(2000);
+        const uniqueDeviceName = generateUniqueDeviceName();
+        Home_Page.AddDeviceName(uniqueDeviceName);
+        Home_Page.ClickonConfirmer();
+        Home_Page.ClickonProfile();
+        Home_Page.ClickonLogout();
+        Home_Page.ClcikonAccepter();
+      });
+    });
   });
 });
