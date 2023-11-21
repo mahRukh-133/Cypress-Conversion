@@ -72,7 +72,7 @@ cy.wait(3000)
       cy.get('#download-1F75CC48-D682-4AD0-AD02-00626F5F3398').click();
     });
     
-    cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
+    //cy.get(':nth-child(9) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').invoke('click')
   });
   
 
@@ -87,7 +87,8 @@ Then('Check that after executing of Procedure delete button is disable',()=>{
 Then('Delete the all procedures',()=>{
   cy.get('#tab-executions-button').click()
   cy.get('#delete-procedure-button').click();
-  cy.get('.ant-btn-true').eq('2').click();
+  cy.get(':nth-child(10) > .ant-modal-root > .ant-modal-wrap > .ant-modal > .ant-modal-content > .ant-modal-footer > .sc-gsFSXq > .ant-btn-true').click()
+ // cy.get('.ant-btn-true').eq('2').click();
 
   cy.wait(3000)
  //cy.get('#delete-procedure-button').click();

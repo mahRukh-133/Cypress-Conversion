@@ -11,3 +11,4 @@ Feature: 1 - Login Test
     Then   I Login Online
     Then  Check the Server is connected
     Then Turn on Connection
+    Then logout the app

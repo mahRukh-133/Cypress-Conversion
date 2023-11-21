@@ -22,7 +22,7 @@ ClickonLogout(){
     cy.get('.ant-popover-inner-content > :nth-child(4)').click()
 }
 
-ClcikonAccepter(){
+clickonlogoutyes(){
   cy.contains('button', 'Aceptar').click();
 }
 

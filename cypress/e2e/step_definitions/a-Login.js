@@ -78,7 +78,7 @@ When('Check that is connected to server',()=>{
 Given('I logout the app',()=>{
     Home_Page.ClickonProfile()
     Home_Page.ClickonLogout()
-    Home_Page.ClcikonAccepter()
+    Home_Page.clickonlogoutyes()
 })
 
 
@@ -98,4 +98,10 @@ Then ('Check the Server is connected',()=>{
 
 Then('Turn on Connection',()=>{
     Home_Page.TurnonConnection()
+})
+
+Then('logout the app',()=>{
+  Home_Page.ClickonProfile()
+    Home_Page.ClickonLogout()
+    Home_Page.clickonlogoutyes()
 })

@@ -45,6 +45,6 @@ Given(`I login the app and enter device name`, () => {
 Then ('I log-out the app',()=>{
     Home_Page.ClickonProfile()
     Home_Page.ClickonLogout()
-    Home_Page.ClcikonAccepter()
+    Home_Page.clickonlogoutyes()
 })
 
